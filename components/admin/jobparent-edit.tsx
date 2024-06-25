@@ -17,29 +17,30 @@ import * as z from "zod";
 import { useState } from "react";
 import { useTransition } from "react";
 import { JobParentSchema } from "@/schemas";
-import { addjobparent } from "@/actions/addusers";
+import { addjobparent, editjobparent } from "@/actions/addusers";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import Card from "@/components/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Job_Parent } from "@prisma/client";
 
-const AdminAddJobParent = () => {
+const UpdateParentForm = ({ jobparent }: { jobparent: Job_Parent }) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const form = useForm<z.infer<typeof JobParentSchema>>({
     resolver: zodResolver(JobParentSchema),
     defaultValues: {
-      name: "",
-      question: "",
+      name: jobparent?.name || "",
+      question: jobparent?.question || "",
     },
   });
   const onSubmit = (values: z.infer<typeof JobParentSchema>) => {
     setError("");
     setSuccess("");
     startTransition(async () => {
-      addjobparent(values).then((data) => {
-        setError(data?.error);
+      editjobparent(values, jobparent.id).then((data) => {
+        // setError(data.error);
         // setSuccess(data.success);
       });
     });
@@ -108,4 +109,4 @@ const AdminAddJobParent = () => {
   );
 };
 
-export default AdminAddJobParent;
+export default UpdateParentForm;

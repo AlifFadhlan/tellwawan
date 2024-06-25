@@ -10,6 +10,14 @@ export const AddUserSchema = z.object({
   }),
 });
 
+export const EditUserSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  email: z.string().email({ message: "Email is required" }),
+  role: z.enum([UserRoles.ADMIN, UserRoles.USER, UserRoles.REKRUTER], {
+    message: "Role is required",
+  }),
+});
+
 export const JobParentSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   question: z.string().min(30, { message: "Question is required" }),

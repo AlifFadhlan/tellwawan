@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/lib/db";
 import * as z from "zod";
-import { AddUserSchema, JobParentSchema } from "@/schemas";
+import { AddUserSchema, EditUserSchema, JobParentSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
 import { revalidatePath } from "next/cache";
@@ -24,17 +24,52 @@ export const addusers = async (values: any) => {
       error: "Email already in use!",
     };
   }
-  await prisma.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-      role: values.role,
-    },
-  });
-  return {
-    success: "User successfully created!",
-  };
+  try {
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: values.role,
+      },
+    });
+  } catch (error) {
+    return {
+      error: "Failed to create user!",
+    };
+  }
+
+  revalidatePath("/admin/users");
+  redirect("/admin/users");
+};
+
+export const editusers = async (values: any, id: string) => {
+  const validatedFields = EditUserSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return {
+      error: "Invalid fields!",
+    };
+  }
+
+  const { name } = validatedFields.data;
+  try {
+    await prisma.user.update({
+      data: {
+        name,
+        role: values.role,
+      },
+      where: {
+        id: id,
+      },
+    });
+  } catch (error) {
+    return {
+      error: "Failed to update user!",
+    };
+  }
+
+  revalidatePath("/admin/users");
+  redirect("/admin/users");
 };
 
 export const addjobparent = async (values: any) => {
@@ -57,6 +92,35 @@ export const addjobparent = async (values: any) => {
   } catch (error) {
     return {
       error: "Failed to create job parent!",
+    };
+  }
+  revalidatePath("/admin/jobparent");
+  redirect("/admin/jobparent");
+};
+
+export const editjobparent = async (values: any, id: string) => {
+  const validatedFields = JobParentSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return {
+      error: "Invalid fields!",
+    };
+  }
+
+  const { name, question } = validatedFields.data;
+
+  try {
+    await prisma.job_Parent.update({
+      data: {
+        name,
+        question,
+      },
+      where: {
+        id: id,
+      },
+    });
+  } catch (error) {
+    return {
+      error: "Failed to update job parent!",
     };
   }
   revalidatePath("/admin/jobparent");

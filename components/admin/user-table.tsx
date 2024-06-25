@@ -30,7 +30,7 @@ const UserTables = async () => {
             <TableCell className="hidden md:table-cell">{post.email}</TableCell>
             <TableCell className="hidden md:table-cell">{post.role}</TableCell>
             <TableCell>
-              <Link href={`/posts/edit/${post.id}`}>
+              <Link href={`/admin/users/edit/${post.id}`}>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
                   Edit
                 </button>

@@ -9,7 +9,7 @@ const AdminUsers = () => {
     <>
       <Card className="p-4 dark:bg-slate-900">
         <div className="flex flex-row items-center justify-between">
-          <p>Admin Users</p>
+          <p className="font-semibold">Admin Users</p>
           <Button>
             <Link href={"/admin/users/add"}>Add</Link>
           </Button>

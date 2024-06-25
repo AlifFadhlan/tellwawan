@@ -8,7 +8,7 @@ const JobParentPage = () => {
   return (
     <Card className="p-4 dark:bg-slate-900">
       <div className="flex flex-row items-center justify-between">
-        <p>Admin Users</p>
+        <p className="font-semibold">Job Parents</p>
         <Button>
           <Link href={"/admin/jobparent/add"}>Add</Link>
         </Button>

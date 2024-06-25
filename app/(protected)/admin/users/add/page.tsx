@@ -47,15 +47,15 @@ const AdminAddUsers = () => {
     setSuccess("");
     startTransition(async () => {
       addusers(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        setError(data?.error);
+        // setSuccess(data.success);
       });
     });
   };
   return (
     <>
       <Card className="p-4">
-        <h1>Admin Add Users</h1>
+        <h1 className="flex flex-col items-center">Admin Add User</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
             <div className="space-y-4">

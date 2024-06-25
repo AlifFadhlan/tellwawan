@@ -3,12 +3,18 @@
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -16,30 +22,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState } from "react";
 import { useTransition } from "react";
-import { JobParentSchema } from "@/schemas";
-import { addjobparent } from "@/actions/addusers";
+import { AddUserSchema, EditUserSchema } from "@/schemas";
+import { addusers, editusers } from "@/actions/addusers";
+import { User, UserRoles } from "@prisma/client";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import Card from "@/components/card";
-import { Textarea } from "@/components/ui/textarea";
 
-const AdminAddJobParent = () => {
+const UpdateUserForm = ({ user }: { user: User }) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const form = useForm<z.infer<typeof JobParentSchema>>({
-    resolver: zodResolver(JobParentSchema),
+  const form = useForm<z.infer<typeof EditUserSchema>>({
+    resolver: zodResolver(EditUserSchema),
     defaultValues: {
-      name: "",
-      question: "",
+      email: user?.email || "",
+      name: user?.name || "",
+      role: user?.role || "",
     },
   });
-  const onSubmit = (values: z.infer<typeof JobParentSchema>) => {
+  const onSubmit = (values: z.infer<typeof EditUserSchema>) => {
     setError("");
     setSuccess("");
     startTransition(async () => {
-      addjobparent(values).then((data) => {
-        setError(data?.error);
+      editusers(values, user.id).then((data) => {
+        // setError(data.error);
         // setSuccess(data.success);
       });
     });
@@ -47,7 +54,7 @@ const AdminAddJobParent = () => {
   return (
     <>
       <Card className="p-4">
-        <h1 className="flex flex-col items-center">Admin Add Job Parent</h1>
+        <h1 className="flex flex-col items-center">Admin Edit User</h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
             <div className="space-y-4">
@@ -70,21 +77,47 @@ const AdminAddJobParent = () => {
               />
               <FormField
                 control={form.control}
-                name="question"
+                name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Question</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Textarea
+                      <Input
                         {...field}
                         disabled={isPending}
-                        placeholder="Siapa nama kamu?
-                        Mengapa kamu tertarik dengan pekerjaan ini?"
+                        readOnly
+                        placeholder="alif@example.com"
+                        type="email"
                       />
                     </FormControl>
-                    <FormDescription>
-                      Masukan minimal 5 pertanyaan
-                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Role</FormLabel>
+                    <FormControl>
+                      <Select
+                        disabled={isPending}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value={UserRoles.ADMIN}>Admin</SelectItem>
+                          <SelectItem value={UserRoles.USER}>User</SelectItem>
+                          <SelectItem value={UserRoles.REKRUTER}>
+                            Rekruter
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -108,4 +141,4 @@ const AdminAddJobParent = () => {
   );
 };
 
-export default AdminAddJobParent;
+export default UpdateUserForm;
