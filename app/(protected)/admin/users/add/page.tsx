@@ -28,6 +28,7 @@ import { UserRoles } from "@prisma/client";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import Card from "@/components/card";
+import BackButton from "@/components/BackButton";
 
 const AdminAddUsers = () => {
   const [isPending, startTransition] = useTransition();
@@ -54,6 +55,7 @@ const AdminAddUsers = () => {
   };
   return (
     <>
+      <BackButton text="Back To User" link="/admin/users" />
       <Card className="p-4">
         <h1 className="flex flex-col items-center">Admin Add User</h1>
         <Form {...form}>

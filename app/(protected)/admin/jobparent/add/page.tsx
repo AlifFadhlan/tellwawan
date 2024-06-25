@@ -22,6 +22,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import Card from "@/components/card";
 import { Textarea } from "@/components/ui/textarea";
+import BackButton from "@/components/BackButton";
 
 const AdminAddJobParent = () => {
   const [isPending, startTransition] = useTransition();
@@ -46,6 +47,7 @@ const AdminAddJobParent = () => {
   };
   return (
     <>
+      <BackButton text="Back To Job Parent" link="/admin/jobparent" />
       <Card className="p-4">
         <h1 className="flex flex-col items-center">Admin Add Job Parent</h1>
         <Form {...form}>
