@@ -4,7 +4,7 @@ interface UserLayoutProps {
 
 const UserLayout = ({ children }: UserLayoutProps) => {
   return (
-    <div className="h-full w-full flex flex-col gap-y-10 items-center justify-center bg-sky-200">
+    <div className="flex flex-col p-4 md:p-12 h-[100vh] bg-slate-300">
       {children}
     </div>
   );

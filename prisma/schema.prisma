@@ -53,6 +53,26 @@ model Account {
   @@id([provider, providerAccountId])
 }
 
+model Job_Parent {
+  id            String          @id @default(cuid())
+  name          String
+  question      String?    @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Job_Child {
+  id            String          @id @default(cuid())
+  parent_id     String
+  user_id       String
+  name          String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([parent_id])
+  @@index([user_id])
+}
+
 model userstest {
   id            Int             @id @default(autoincrement())
   email         String          @unique
@@ -62,10 +82,13 @@ model userstest {
 model Interview {
   id            String          @id @default(cuid())
   user_id       String?
-  job_id        String?
-  description   Json?
-  chathistory   Json?
-  summary       Json?
+  jobparent_id        String?
+  chathistory   String?    @db.Text
+  summary       String?    @db.Text
+  status        String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([jobparent_id])
+  @@index([user_id])
 }

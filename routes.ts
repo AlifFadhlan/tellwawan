@@ -28,4 +28,10 @@ export const apiAuthPrefix = "/api/auth";
  * Default redirect path after login
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/settings";
+export const DEFAULT_LOGIN_REDIRECT = "/user";
+
+export const DEFAULT_ADMIN_REDIRECT = "/admin";
+
+export const DEFAULT_USER_REDIRECT = "/user";
+
+export const DEFAULT_PEREKRUT_REDIRECT = "/perekrut";
