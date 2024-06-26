@@ -36,6 +36,10 @@ const Sidebar = () => {
             <Folders className="mr-2 h-4 w-4" />
             <Link href="/admin/jobparent">Job Parent</Link>
           </CommandItem>
+          <CommandItem>
+            <Folders className="mr-2 h-4 w-4" />
+            <Link href="/admin/jobchild">Job Child</Link>
+          </CommandItem>
         </CommandGroup>
         {/* <CommandSeparator />
         <CommandGroup heading="Settings">

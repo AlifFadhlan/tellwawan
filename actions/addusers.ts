@@ -1,7 +1,12 @@
 "use server";
 import prisma from "@/lib/db";
 import * as z from "zod";
-import { AddUserSchema, EditUserSchema, JobParentSchema } from "@/schemas";
+import {
+  AddUserSchema,
+  EditUserSchema,
+  JobChildSchema,
+  JobParentSchema,
+} from "@/schemas";
 import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
 import { revalidatePath } from "next/cache";
@@ -125,4 +130,31 @@ export const editjobparent = async (values: any, id: string) => {
   }
   revalidatePath("/admin/jobparent");
   redirect("/admin/jobparent");
+};
+
+export const addjobchild = async (values: any) => {
+  const validatedFields = JobChildSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return {
+      error: "Invalid fields!",
+    };
+  }
+
+  const { name, parent_id, user_id } = validatedFields.data;
+
+  try {
+    await prisma.job_Child.create({
+      data: {
+        name,
+        parent_id,
+        user_id,
+      },
+    });
+  } catch (error) {
+    return {
+      error: "Failed to create job child!",
+    };
+  }
+  revalidatePath("/admin/jobchild");
+  redirect("/admin/jobchild");
 };

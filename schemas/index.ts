@@ -33,3 +33,9 @@ export const RegisterSchema = z.object({
   password: z.string().min(6, { message: "Minimum 6 characters required" }),
   name: z.string().min(1, { message: "Name is required" }),
 });
+
+export const JobChildSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  parent_id: z.string().min(1, { message: "Job parent is required" }),
+  user_id: z.string().min(1, { message: "Rekruter is required" }),
+});
