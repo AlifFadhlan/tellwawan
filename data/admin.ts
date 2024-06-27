@@ -57,3 +57,17 @@ export const getJobParentbyId = async (id: string) => {
     throw new Error("Failed to fetch job parent");
   }
 };
+
+export const getAllJobChild = async () => {
+  try {
+    const jobChild = await db.job_Child.findMany({
+      include: {
+        parent: true,
+        user: true,
+      },
+    });
+    return jobChild;
+  } catch (error) {
+    throw new Error("Failed to fetch job childs");
+  }
+};

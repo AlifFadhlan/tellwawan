@@ -40,6 +40,10 @@ const Sidebar = () => {
             <Folders className="mr-2 h-4 w-4" />
             <Link href="/admin/jobchild">Job Child</Link>
           </CommandItem>
+          <CommandItem>
+            <Folders className="mr-2 h-4 w-4" />
+            <Link href="/admin/interview">Interview</Link>
+          </CommandItem>
         </CommandGroup>
         {/* <CommandSeparator />
         <CommandGroup heading="Settings">

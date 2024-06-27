@@ -1,4 +1,4 @@
-import { ParentTables } from "@/components/admin/jobparent-table";
+import { ChildTables } from "@/components/admin/jobchild-table";
 import Card from "@/components/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -13,7 +13,7 @@ const JobChildPage = () => {
           <Link href={"/admin/jobchild/add"}>Add</Link>
         </Button>
       </div>
-      {/* <ParentTables /> */}
+      <ChildTables />
     </Card>
   );
 };

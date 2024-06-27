@@ -30,6 +30,7 @@ model User {
   accounts      Account[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  job_child Job_Child[]
 }
 
 model Account {
@@ -59,6 +60,7 @@ model Job_Parent {
   question      String?    @db.Text
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  job_child Job_Child[]
 }
 
 model Job_Child {
@@ -68,6 +70,9 @@ model Job_Child {
   name          String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  parent Job_Parent @relation(fields: [parent_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
+
 
   @@index([parent_id])
   @@index([user_id])
