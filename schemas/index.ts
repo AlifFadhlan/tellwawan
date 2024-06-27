@@ -39,3 +39,8 @@ export const JobChildSchema = z.object({
   parent_id: z.string().min(1, { message: "Job parent is required" }),
   user_id: z.string().min(1, { message: "Rekruter is required" }),
 });
+
+export const AddInterviewSchema = z.object({
+  jobchild_id: z.string().min(1, { message: "Job child is required" }),
+  user_id: z.string().min(1, { message: "Rekruter is required" }),
+});

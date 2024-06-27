@@ -23,6 +23,19 @@ export const getAllPerekrut = async () => {
   }
 };
 
+export const getAllPelamar = async () => {
+  try {
+    const users = await db.user.findMany({
+      where: {
+        role: UserRoles.USER,
+      },
+    });
+    return users;
+  } catch (error) {
+    throw new Error("Failed to fetch users");
+  }
+};
+
 export const getUserById = async (id: string) => {
   try {
     const user = await db.user.findUnique({
@@ -69,5 +82,19 @@ export const getAllJobChild = async () => {
     return jobChild;
   } catch (error) {
     throw new Error("Failed to fetch job childs");
+  }
+};
+
+export const getAllInterviews = async () => {
+  try {
+    const interviews = await db.interview.findMany({
+      include: {
+        child: { include: { parent: true, user: true } },
+        user: true,
+      },
+    });
+    return interviews;
+  } catch (error) {
+    throw new Error("Failed to fetch interviews");
   }
 };

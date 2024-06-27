@@ -18,6 +18,18 @@ enum UserRoles {
   USER
   REKRUTER
 }
+
+enum StatusInterview {
+  BELUM
+  SELESAI
+}
+
+enum Judgments {
+  TERIMA
+  TOLAK
+  BELUM
+  PERTIMBANGAN
+}
  
 model User {
   id            String          @id @default(cuid())
@@ -31,6 +43,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   job_child Job_Child[]
+  interview Interview[]
 }
 
 model Account {
@@ -72,6 +85,7 @@ model Job_Child {
   updatedAt     DateTime @updatedAt
   parent Job_Parent @relation(fields: [parent_id], references: [id])
   user User @relation(fields: [user_id], references: [id])
+  interview Interview[]
 
 
   @@index([parent_id])
@@ -86,14 +100,17 @@ model userstest {
 
 model Interview {
   id            String          @id @default(cuid())
-  user_id       String?
-  jobparent_id        String?
+  user_id       String
+  jobchild_id        String
   chathistory   String?    @db.Text
   summary       String?    @db.Text
-  status        String?
+  status        StatusInterview    @default(BELUM)
+  judgment      Judgments   @default(BELUM)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  child Job_Child @relation(fields: [jobchild_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
 
-  @@index([jobparent_id])
+  @@index([jobchild_id])
   @@index([user_id])
 }

@@ -2,6 +2,7 @@
 import prisma from "@/lib/db";
 import * as z from "zod";
 import {
+  AddInterviewSchema,
   AddUserSchema,
   EditUserSchema,
   JobChildSchema,
@@ -157,4 +158,30 @@ export const addjobchild = async (values: any) => {
   }
   revalidatePath("/admin/jobchild");
   redirect("/admin/jobchild");
+};
+
+export const addinterview = async (values: any) => {
+  const validatedFields = AddInterviewSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return {
+      error: "Invalid fields!",
+    };
+  }
+
+  const { jobchild_id, user_id } = validatedFields.data;
+
+  try {
+    await prisma.interview.create({
+      data: {
+        jobchild_id,
+        user_id,
+      },
+    });
+  } catch (error) {
+    return {
+      error: "Failed to create interview!",
+    };
+  }
+  revalidatePath("/admin/interview");
+  redirect("/admin/interview");
 };
