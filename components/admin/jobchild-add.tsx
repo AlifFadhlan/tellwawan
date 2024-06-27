@@ -86,6 +86,31 @@ const AddJobChildForm = ({
 
               <FormField
                 control={form.control}
+                name="user_id"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Rekruter</FormLabel>
+                    <FormControl>
+                      <Select
+                        disabled={isPending}
+                        onValueChange={field.onChange}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a rekruter" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {user_id.map((user: User) => (
+                            <SelectItem value={user.id}>{user.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="parent_id"
                 render={({ field }) => (
                   <FormItem>
@@ -103,31 +128,6 @@ const AddJobChildForm = ({
                             <SelectItem value={parent.id}>
                               {parent.name}
                             </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="user_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Rekruter</FormLabel>
-                    <FormControl>
-                      <Select
-                        disabled={isPending}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a rekruter" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {user_id.map((user: User) => (
-                            <SelectItem value={user.id}>{user.name}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>

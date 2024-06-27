@@ -32,7 +32,7 @@ export default auth((req) => {
       return Response.redirect(new URL(DEFAULT_ADMIN_REDIRECT, nextUrl));
     }
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return Response.redirect(new URL(DEFAULT_ADMIN_REDIRECT, nextUrl));
     }
     return;
   }

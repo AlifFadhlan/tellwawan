@@ -34,4 +34,6 @@ export const DEFAULT_ADMIN_REDIRECT = "/admin";
 
 export const DEFAULT_USER_REDIRECT = "/user";
 
-export const DEFAULT_PEREKRUT_REDIRECT = "/perekrut";
+export const DEFAULT_REKRUTER_REDIRECT = "/rekruter";
+
+export const DEFAULT_HOME = "/home";

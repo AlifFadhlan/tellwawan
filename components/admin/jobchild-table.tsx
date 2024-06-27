@@ -29,9 +29,7 @@ export const ChildTables = async () => {
       <TableBody>
         {childs.map((child) => (
           <TableRow key={child.id}>
-            <TableCell>
-              {child.parent.name} - {child.user.name}
-            </TableCell>
+            <TableCell>{child.name}</TableCell>
             <TableCell className="hidden md:table-cell">
               {child.parent.name}
             </TableCell>

@@ -26,3 +26,12 @@ export const getInterviewbyId = async (user_id: string | undefined) => {
     return null;
   }
 };
+
+export const getUserRole = async (id: string | undefined) => {
+  try {
+    const user = await db.user.findUnique({ where: { id } });
+    return user?.role;
+  } catch {
+    return null;
+  }
+};

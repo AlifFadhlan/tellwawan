@@ -32,7 +32,7 @@ export const InterviewTables = async () => {
           <TableRow key={interview.id}>
             <TableCell>{interview.user.name}</TableCell>
             <TableCell className="hidden md:table-cell">
-              {interview.child.user.name} - {interview.child.parent.name}
+              {interview.child.name}
             </TableCell>
             <TableCell className="hidden md:table-cell">
               {interview.status}
