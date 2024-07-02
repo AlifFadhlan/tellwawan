@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 
 import {
   DEFAULT_ADMIN_REDIRECT,
+  DEFAULT_HOME,
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
@@ -29,10 +30,10 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn && isAdmin) {
-      return Response.redirect(new URL(DEFAULT_ADMIN_REDIRECT, nextUrl));
+      return Response.redirect(new URL(DEFAULT_HOME, nextUrl));
     }
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_ADMIN_REDIRECT, nextUrl));
+      return Response.redirect(new URL(DEFAULT_HOME, nextUrl));
     }
     return;
   }

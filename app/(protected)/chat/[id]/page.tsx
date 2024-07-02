@@ -1,7 +1,7 @@
 import { ChatWindow } from "@/components/chat/ChatWindow";
 import React from "react";
 
-const UserChat = () => {
+const UserChat = async ({ params }: { params: { id: string } }) => {
   const InfoCard = (
     <div className="p-4 md:p-8 rounded bg-zinc-700 w-full max-h-[85%] overflow-hidden text-white">
       <h1 className="text-3xl md:text-4xl mb-4">Wawan the Interviewer 🤵</h1>
@@ -9,7 +9,7 @@ const UserChat = () => {
         <li className="text-l">
           1️⃣
           <span className="ml-2">
-            Pastikan Anda berada di lingkungan yang kondusif.
+            Pastikan Anda berada di lingkungan yang kondusif.{params.id}
           </span>
         </li>
         <li className="hidden text-l md:block">
@@ -56,12 +56,14 @@ const UserChat = () => {
       {/* <button className="fixed top-4 right-6 px-8 py-4 bg-yellow-500 rounded w-28">
         Selesai
       </button> */}
+      {/* href={`/admin/jobchild/edit/${child.id}`} */}
       <ChatWindow
-        endpoint="api/chat/uiux"
+        endpoint={`/api/chat/${params.id}`}
         emoji="🤵"
         titleText="Wawan the Interviewer 🤵"
         placeholder="Ketik 'halo' untuk memulai wawancara."
         emptyStateComponent={InfoCard}
+        id_interview={params.id}
       ></ChatWindow>
     </>
   );

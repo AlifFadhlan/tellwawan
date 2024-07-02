@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 // import logo from "../img/logo.png";
@@ -12,11 +14,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ThemeToggler from "@/components/ThemeToggler";
 import { logout } from "@/actions/logout";
+import { signOut } from "@/auth";
+import { Button } from "./ui/button";
 
 const onPlis = () => {
   logout();
 };
-
 const Navbar = () => {
   return (
     <div className="bg-red-700 dark:bg-red-500 text-white py-2 px-5 flex justify-between">
@@ -40,7 +43,7 @@ const Navbar = () => {
               <Link href="/profile">Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href="/settings">Logout</Link>
+              <button onClick={onPlis}>Logout</button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

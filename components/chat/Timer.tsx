@@ -6,15 +6,17 @@ import { on } from "events";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Timer(props: { messages: any[] }) {
+export default function Timer(props: { messages: any[]; idInterview: string }) {
   const [seconds, setSeconds] = useState(900);
 
-  const { messages } = props;
+  const { messages, idInterview } = props;
   const onPlis = () => {
     logout();
   };
   const user = useCurrentUser();
   const router = useRouter();
+
+  const endpoint = `/api/chat/save/${idInterview}`;
 
   useEffect(() => {
     if (seconds > 0) {
@@ -27,7 +29,7 @@ export default function Timer(props: { messages: any[] }) {
   }, [seconds]);
 
   const handleButtonClick = async () => {
-    const response = await fetch("api/chat/save", {
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

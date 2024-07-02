@@ -4,6 +4,8 @@ import { Message as VercelChatMessage, StreamingTextResponse } from "ai";
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { currentUser } from "@/lib/auth";
+import { getInterviewUserById } from "@/data/pelamar";
+import { StatusInterview } from "@prisma/client";
 
 const formatMessage = (message: VercelChatMessage) => {
   return `${message.role}: ${message.content}`;
@@ -11,7 +13,9 @@ const formatMessage = (message: VercelChatMessage) => {
 
 export async function POST(req: NextRequest) {
   try {
+    const idInterview: string = req.url.split("/").pop() ?? "";
     const user = await currentUser();
+    const interview = await getInterviewUserById(idInterview);
     const body = await req.json();
     const messages = body.messages ?? [];
     const formattedPreviousMessages = messages.slice(0, -1).map(formatMessage);
@@ -43,12 +47,14 @@ export async function POST(req: NextRequest) {
     // }
 
     // banyak message di satu row
-    await prisma.interview.create({
+    await prisma.interview.update({
       data: {
-        user_id: user?.id,
-        job_id: user?.email,
         summary: JSON.stringify(content),
         chathistory: formattedPreviousMessages.join("\n"),
+        status: StatusInterview.SELESAI,
+      },
+      where: {
+        id: idInterview,
       },
     });
 

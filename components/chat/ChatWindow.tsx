@@ -22,6 +22,7 @@ export function ChatWindow(props: {
   emoji?: string;
   showIngestForm?: boolean;
   showIntermediateStepsToggle?: boolean;
+  id_interview: string;
 }) {
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -33,12 +34,14 @@ export function ChatWindow(props: {
     showIngestForm,
     showIntermediateStepsToggle,
     emoji,
+    id_interview = props.id_interview,
   } = props;
 
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(false);
   const [intermediateStepsLoading, setIntermediateStepsLoading] =
     useState(false);
   const ingestForm = showIngestForm;
+  const [idInterview, setIdInterview] = useState("");
   const intemediateStepsToggle = showIntermediateStepsToggle && (
     <div>
       <input
@@ -106,6 +109,7 @@ export function ChatWindow(props: {
     } else {
       setIntermediateStepsLoading(true);
       setInput("");
+      setIdInterview(id_interview);
       const messagesWithUserReply = messages.concat({
         id: messages.length.toString(),
         content: input,
@@ -115,8 +119,13 @@ export function ChatWindow(props: {
       console.log(messagesWithUserReply);
       const response = await fetch(endpoint, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
+          interview: idInterview,
           messages: messagesWithUserReply,
+
           show_intermediate_steps: true,
         }),
       });
@@ -190,7 +199,7 @@ export function ChatWindow(props: {
         }`}
       >
         <div className="flex flex-col-reverse justify-center w-full mb-4">
-          <Timer messages={messages} />
+          <Timer messages={messages} idInterview={id_interview} />
         </div>
         <h2 className={`${messages.length > 0 ? "" : "hidden"} text-2xl`}>
           {emoji} {titleText}

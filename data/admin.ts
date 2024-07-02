@@ -98,3 +98,22 @@ export const getAllInterviews = async () => {
     throw new Error("Failed to fetch interviews");
   }
 };
+
+export const getInterviewByUserId = async (user_id: string | undefined) => {
+  try {
+    const interviews = await db.interview.findMany({
+      where: {
+        child: {
+          user_id: user_id,
+        },
+      },
+      include: {
+        child: { include: { parent: true, user: true } },
+        user: true,
+      },
+    });
+    return interviews;
+  } catch (error) {
+    throw new Error("Failed to fetch interviews");
+  }
+};
